@@ -1,15 +1,15 @@
+import { MainLayout } from './components/layout/MainLayout'
+
 function App() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-8">
-        <h1 className="text-4xl font-bold text-foreground">
-          SIAKAD - Sistem Informasi Akademik Kampus
-        </h1>
-        <p className="mt-4 text-muted-foreground">
-          Foundation setup complete. Ready for development.
+    <MainLayout>
+      <div>
+        <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Selamat datang di SIAKAD - Sistem Informasi Akademik Kampus
         </p>
       </div>
-    </div>
+    </MainLayout>
   )
 }
 
