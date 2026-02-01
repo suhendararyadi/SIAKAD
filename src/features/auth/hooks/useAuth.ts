@@ -10,10 +10,10 @@ export function useAuth() {
 
   useEffect(() => {
     // Check active session
-    authService.getCurrentUser().then(({ user, profile }) => {
-      if (user && profile) {
-        setUser(user)
-        setProfile(profile)
+    authService.getCurrentUser().then((data) => {
+      if (data?.user && data?.profile) {
+        setUser(data.user)
+        setProfile(data.profile)
       }
     })
 
@@ -34,6 +34,7 @@ export function useAuth() {
     return () => {
       subscription.unsubscribe()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const signIn = async (email: string, password: string) => {
