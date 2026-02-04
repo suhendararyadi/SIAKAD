@@ -28,7 +28,13 @@ export const authService = {
       .eq('id', userId)
       .single()
 
-    if (error) throw error
+    if (error) {
+      // Don't throw on PGRST116 (no rows) - profile might not exist yet
+      if (error.code === 'PGRST116') {
+        return null
+      }
+      throw error
+    }
     return data
   },
 

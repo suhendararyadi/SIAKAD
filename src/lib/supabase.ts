@@ -8,4 +8,32 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
+// Clear old session data to prevent conflicts
+if (typeof window !== 'undefined') {
+  try {
+    localStorage.removeItem('sb-qpuguqqbpcolbkbdyban-auth-token')
+    localStorage.removeItem('supabase.auth.token')
+  } catch (e) {
+    // Ignore storage errors
+  }
+}
+
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false,
+    storage: localStorage,
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'supabase-js-web',
+    },
+    fetch: (url, options = {}) => {
+      return fetch(url, {
+        ...options,
+        signal: AbortSignal.timeout(30000),
+      })
+    },
+  },
+})
